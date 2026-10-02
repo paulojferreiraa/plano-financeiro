@@ -41,3 +41,15 @@ O perfil `demo` escreve o link temporário no log do servidor para permitir test
 ```
 
 Os testes usam H2 e não precisam de MySQL. Senhas são armazenadas com BCrypt, a sessão usa cookie HttpOnly e alterações são protegidas por CSRF. Cada consulta financeira é limitada ao usuário autenticado.
+
+## Publicar no Vercel
+
+O Vercel hospeda o frontend e a função proxy em `api/[...path].js`; ele não mantém o processo Java do Spring Boot. Publique o backend separado em um serviço que aceite `Dockerfile` (por exemplo, Railway), adicione um MySQL e configure no backend:
+
+- `DB_URL`: URL JDBC do MySQL remoto, começando com `jdbc:mysql://`
+- `DB_USER` e `DB_PASSWORD`: credenciais do banco
+- `COOKIE_SECURE=true`
+- `APP_BASE_URL`: URL pública do frontend Vercel, para os links de redefinição de senha
+- `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_SMTP_AUTH`, `MAIL_STARTTLS_ENABLE` e `MAIL_FROM` para recuperação por e-mail
+
+Depois, em **Vercel > Project Settings > Environment Variables**, configure `BACKEND_URL` com o domínio HTTPS público do backend, sem `/api` no final, e faça um novo deploy. A função encaminha `/api/...` ao Spring e preserva cookies de sessão e CSRF. Para conferir o backend, abra `https://SEU_BACKEND/api/health`; deve responder `{"status":"ok"}`.

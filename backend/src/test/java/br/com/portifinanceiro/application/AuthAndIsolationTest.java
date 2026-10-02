@@ -109,6 +109,13 @@ class AuthAndIsolationTest {
     }
 
     @Test
+    void healthEndpointPublicoConfirmaQueApiEstaOnline() throws Exception {
+        mockMvc.perform(get("/api/health"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.status").value("ok"));
+    }
+
+    @Test
     void recuperacaoNaoRevelaContaETokenSoPodeSerUsadoUmaVez() throws Exception {
         String respostaDesconhecida = mockMvc.perform(requisicaoPost(
                 "/api/auth/password/forgot",

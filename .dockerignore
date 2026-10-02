@@ -1,0 +1,6 @@
+.git
+.mvn
+node_modules
+**/target
+.env
+.env.*

@@ -65,7 +65,7 @@ public class SecurityConfig {
             .httpBasic(AbstractHttpConfigurer::disable)
             .logout(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.GET, "/", "/index.html", "/error", "/api/auth/csrf").permitAll()
+                .requestMatchers(HttpMethod.GET, "/", "/index.html", "/error", "/api/auth/csrf", "/api/health").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login", "/api/auth/password/forgot", "/api/auth/password/reset").permitAll()
                 .anyRequest().authenticated())
             .exceptionHandling(errors -> errors

@@ -1,2 +1,5 @@
 /target/
 /backend/target/
+.vercel/
+.env
+.env.*
