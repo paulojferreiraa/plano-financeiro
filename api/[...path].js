@@ -25,7 +25,8 @@ module.exports = async function handler(request, response) {
         const options = {
             method: request.method,
             headers,
-            redirect: "manual"
+            redirect: "manual",
+            signal: AbortSignal.timeout(8000)
         };
 
         if (request.method !== "GET" && request.method !== "HEAD" && request.body !== undefined) {
